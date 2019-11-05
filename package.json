@@ -1,0 +1,35 @@
+{
+  "name": "redux-extension",
+  "version": "1.0.0",
+  "description": "Sync redux store between browser extension elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0riac/redux-extension.git"
+  },
+  "keywords": [
+    "redux",
+    "extension",
+    "connect",
+    "sync",
+    "messaging",
+    "mozilla",
+    "browser",
+    "chrome",
+    "popup",
+    "background",
+    "synchronization"
+  ],
+  "author": {
+    "name": "0riac",
+    "url": "https://github.com/0riac/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0riac/redux-extension/issues"
+  },
+  "homepage": "https://github.com/0riac/redux-extension#readme"
+}
