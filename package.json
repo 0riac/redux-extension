@@ -1,6 +1,6 @@
 {
   "name": "redux-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sync redux store between browser extension elements",
   "main": "./lib/index.js",
   "scripts": {
@@ -36,11 +36,13 @@
   },
   "homepage": "https://github.com/0riac/redux-extension#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^1.0.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
     "rimraf": "^3.0.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.7.1"
   }
 }
