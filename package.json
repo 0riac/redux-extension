@@ -2,9 +2,12 @@
   "name": "redux-extension",
   "version": "1.0.0",
   "description": "Sync redux store between browser extension elements",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "test": "echo \"No test specified\""
+    "clean": "rimraf lib",
+    "test": "echo \"No test specified\" || 1",
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run clean && npm run test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -31,5 +34,13 @@
   "bugs": {
     "url": "https://github.com/0riac/redux-extension/issues"
   },
-  "homepage": "https://github.com/0riac/redux-extension#readme"
+  "homepage": "https://github.com/0riac/redux-extension#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "rimraf": "^3.0.0"
+  }
 }
