@@ -52,7 +52,7 @@ What you will get: when loading the page on which the extension is running, the 
 It accepts arguments of various types:
 * [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port) which is connected to another script
 * Promise that resolves with an object of type [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port)
-* Object for creating a connection listener(use [```addListener```](#addlistener))
+* Object for creating a connection listener(use [```addListener```](#addlisteneroptions))
 
 Middleware modifies the ```dispatch``` method of your store by forwarding each action to connected ports. If you do not want to send any action, specify the ```notSync: true``` flag in your action.
 
