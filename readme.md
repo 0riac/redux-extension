@@ -1,4 +1,5 @@
-﻿##  Redux-Extension
+﻿
+# Redux-Extension
 
 A simple and customizable redux middleware for synchronizing store between browser extension elements(background, content, popup). 
 

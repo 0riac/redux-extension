@@ -1,6 +1,6 @@
 {
   "name": "redux-extension",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Sync redux store between browser extension elements",
   "main": "./lib/index.js",
   "scripts": {
