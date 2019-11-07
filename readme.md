@@ -5,9 +5,10 @@ A simple and customizable redux middleware for synchronizing store between brows
 ## Why redux-extension?
 
 * Quick and easy [start](#get-started)
-* Ability to use ports, promises and listeners(see [syncMiddleware](#syncmiddleware))
-* Messaging between stores is done using [ports](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port), this is several times faster than using [```runtime.sendMessage```](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage).
+* Ability to use ports, promises and listeners(see [syncMiddleware](#syncmiddlewareargs))
+* Messaging between stores is done using [ports](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port), this is several times faster than using [runtime.sendMessage](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage).
 * Сustomize as you need: 
+
 	* connect only those scripts that you need
 	* define reaction on actions [onConnect](#onconnectaction) and [onDisconnect](#ondisconnectaction)
 
@@ -19,14 +20,14 @@ npm install --save redux-extionsion
 
 ## Get started
 
-Use [syncMiddleware](#syncmiddleware) to create a middleware to sync your scripts.
+Use [syncMiddleware](#syncmiddlewareargs) to create a middleware to sync your scripts.
 
 ```javascript
 import { syncMiddleware } from 'redux-extension';
 const middleware = syncMiddleware();
 ```
 
-Establish a [connection](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/connect) between synchronized scripts. You can use [connect](#connect(name)), [connectToTab](#connectToTab(name)) and [addListener](#addlistener([options])) for this. Example synchronization between *background*, *content* and *popup* scripts:
+Establish a [connection](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/connect) between synchronized scripts. You can use [connect](#connectname), [connectToTab](#connectToTabname) and [addListener](#addlisteneroptions) for this. Example synchronization between *background*, *content* and *popup* scripts:
 
 background.js: 
 
@@ -70,7 +71,7 @@ What you will get: when loading the page on which the extension is running, the 
 It accepts arguments of various types:
 * [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port) which is connected to another script
 * Promise that resolves with an object of type [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port)
-* Object for creating a connection listener(use [```addListener```](#addlistener([options])))
+* Object for creating a connection listener(use [addListener](#addlisteneroptions))
 
 Middleware modifies the ```dispatch``` method of your store by forwarding each action to connected ports. If you do not want to send any action, specify the ```notSync: true``` flag in your action.
 
