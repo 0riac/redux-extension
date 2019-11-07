@@ -1,7 +1,15 @@
-# Redux-Extension
+﻿# Redux-Extension
 
-A simple and customizable redux middleware for synchronizing store between browser extension elements(background, content, popup).
-Messaging between stores is done using [ports](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port), this is several times faster than using [```runtime.sendMessage```](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage).
+A simple and customizable redux middleware for synchronizing store between browser extension elements(background, content, popup). 
+
+## Why redux-extension?
+
+* Quick and easy [start](#get-started)
+* Ability to use ports, promises and listeners(see [syncMiddleware](#syncmiddleware))
+* Messaging between stores is done using [ports](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port), this is several times faster than using [```runtime.sendMessage```](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage).
+* Сustomize as you need: 
+	* connect only those scripts that you need
+	* define reaction on actions [onConnect](#onconnectaction) and [onDisconnect](#ondisconnectaction)
 
 ## Install
 
@@ -11,15 +19,23 @@ npm install --save redux-extionsion
 
 ## Get started
 
-Example stores connection between background, content and popup scripts
+Use [syncMiddleware](#syncmiddleware) to create a middleware to sync your scripts.
 
-background.js:
+```javascript
+import { syncMiddleware } from 'redux-extension';
+const middleware = syncMiddleware();
+```
+
+Establish a [connection](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/connect) between synchronized scripts. You can use [connect](#connect(name)), [connectToTab](#connectToTab(name)) and [addListener](#addlistener([options])) for this. Example synchronization between *background*, *content* and *popup* scripts:
+
+background.js: 
 
 ```javascript
 import { createStore, applyMiddleware } from 'redux';
 import { syncMiddleware, addListener } from 'redux-extension';
 
-const store = createStore(reducer, {}, applyMiddleware(syncMiddleware(addListener())));
+const middleware = syncMiddleware(addListener());
+const store = createStore(reducer, {}, applyMiddleware(middleware));
 ```
 
 content.js:
@@ -28,7 +44,8 @@ content.js:
 import { createStore, applyMiddleware } from 'redux';
 import { syncMiddleware, addListener, connect } from 'redux-extension';
 
-const store = createStore(reducer, {}, applyMiddleware(syncMiddleware(connect('port_name'), addListener())));
+const middleware = syncMiddleware(connect('port_name'), addListener());
+const store = createStore(reducer, {}, applyMiddleware(middleware));
 ```
 
 popup.js:
@@ -37,7 +54,8 @@ popup.js:
 import { createStore, applyMiddleware } from 'redux';
 import { syncMiddleware, connect, connectToTab } from 'redux-extension';
 
-const store = createStore(reducer, {}, applyMiddleware(syncMiddleware(connect('port_name'), connectToTab('port_name'))));
+const middleware = syncMiddleware(connect('port_name'), connectToTab('port_name'));
+const store = createStore(reducer, {}, applyMiddleware(middleware));
 ```
 
 
@@ -52,7 +70,7 @@ What you will get: when loading the page on which the extension is running, the 
 It accepts arguments of various types:
 * [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port) which is connected to another script
 * Promise that resolves with an object of type [Port](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port)
-* Object for creating a connection listener(use [```addListener```](#addlisteneroptions))
+* Object for creating a connection listener(use [```addListener```](#addlistener([options])))
 
 Middleware modifies the ```dispatch``` method of your store by forwarding each action to connected ports. If you do not want to send any action, specify the ```notSync: true``` flag in your action.
 
@@ -60,7 +78,7 @@ Middleware subscribes each port to ```onMessage``` and ```onDisconnect``` events
 
 #### connect(name)
 
-Accepts an argument of type String. Returns the port with the specified name.
+Accepts an argument of type String. Returns the port with the specified name. 
 
 This function is an alias for ```browser.runtime.connect({ name })```.
 
@@ -87,9 +105,9 @@ Takes dispatch as the first argument and any number of arguments of type [Port](
 
 ### Actions
 
-#### onConnectAction
+#### onConnectAction 
 
-If middleware processes incoming connections, then when the new port is ready, ```onConnectAction``` with type ```@@ON_CONNECT``` and payload ```{ name, sender }``` will be dispatched to all ports connected to the store. **Name** is the port name and **sender** is a [port.sender](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/MessageSender) object.
+**If middleware processes incoming connections**, then when the new port is ready, ```onConnectAction``` with type ```@@ON_CONNECT``` and payload ```{ name, sender }``` will be dispatched to all ports connected to the store. **Name** is the port name and **sender** is a [port.sender](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/MessageSender) object.
 
 You can handle these actions in your reducers in your own way to achieve the desired result.
 
